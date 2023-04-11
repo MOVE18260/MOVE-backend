@@ -4,6 +4,7 @@ import dev.ehyeon.move.entity.Member;
 import dev.ehyeon.move.repository.MemberRepository;
 import dev.ehyeon.move.service.dto.SignInRequest;
 import dev.ehyeon.move.service.dto.SignUpRequest;
+import dev.ehyeon.move.util.DateUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,7 +28,8 @@ public class MemberService {
         }
         return memberRepository.save(
                 new Member(request.getEmail(), request.getPassword(), request.getNickname(),
-                        request.getBirthDate(), request.getSex(), request.getProvince()));
+                        DateUtil.yearToLocalDateTime(request.getBirthDate()), request.getSex(),
+                        request.getProvince()));
     }
 
     @Transactional

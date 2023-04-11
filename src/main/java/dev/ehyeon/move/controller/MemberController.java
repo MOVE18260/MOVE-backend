@@ -32,7 +32,7 @@ public class MemberController {
         }
 
         return ResponseEntity.ok(
-                new MemberResponse(foundMember.getNickname(), foundMember.getBirthDate(),
+                new MemberResponse(foundMember.getNickname(), foundMember.getBirthDate().getYear(),
                         foundMember.getSex(), foundMember.getProvince()));
     }
 
@@ -41,7 +41,8 @@ public class MemberController {
         try {
             Member foundMember = memberService.getMemberByEmailAndPassword(request);
             return ResponseEntity.ok(new MemberResponse(foundMember.getNickname(),
-                    foundMember.getBirthDate(), foundMember.getSex(), foundMember.getProvince()));
+                    foundMember.getBirthDate().getYear(), foundMember.getSex(),
+                    foundMember.getProvince()));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }
