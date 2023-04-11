@@ -32,14 +32,18 @@ public class Member {
     private LocalDate birthDate;
 
     @Column(nullable = false)
+    private String sex;
+
+    @Column(nullable = false)
     private String province;
 
     public Member(String email, String password, String nickname, LocalDate birthDate,
-            String province) {
+            String sex, String province) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;
         this.birthDate = birthDate;
+        this.sex = sex;
         this.province = province;
     }
 }

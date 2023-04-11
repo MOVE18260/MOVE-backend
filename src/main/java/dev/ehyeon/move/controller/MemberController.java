@@ -33,7 +33,7 @@ public class MemberController {
 
         return ResponseEntity.ok(
                 new MemberResponse(foundMember.getNickname(), foundMember.getBirthDate(),
-                        foundMember.getProvince()));
+                        foundMember.getSex(), foundMember.getProvince()));
     }
 
     @PostMapping("/member")
@@ -41,7 +41,7 @@ public class MemberController {
         try {
             Member foundMember = memberService.getMemberByEmailAndPassword(request);
             return ResponseEntity.ok(new MemberResponse(foundMember.getNickname(),
-                    foundMember.getBirthDate(), foundMember.getProvince()));
+                    foundMember.getBirthDate(), foundMember.getSex(), foundMember.getProvince()));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.notFound().build();
         }

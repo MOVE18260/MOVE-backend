@@ -27,7 +27,7 @@ public class MemberService {
         }
         return memberRepository.save(
                 new Member(request.getEmail(), request.getPassword(), request.getNickname(),
-                        request.getBirthDate(), request.getProvince()));
+                        request.getBirthDate(), request.getSex(), request.getProvince()));
     }
 
     @Transactional

@@ -4,11 +4,11 @@ import java.time.LocalDate;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Getter
 public class SignUpRequest {
 
@@ -25,6 +25,9 @@ public class SignUpRequest {
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private final LocalDate birthDate;
+
+    @NotBlank
+    private final String sex;
 
     @NotBlank
     private final String province;

@@ -20,5 +20,8 @@ public class MemberResponse {
     private final LocalDate birthDate;
 
     @NotBlank
+    private final String sex;
+
+    @NotBlank
     private final String province;
 }
