@@ -5,7 +5,7 @@ import dev.ehyeon.move.entity.RecordId;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface RecordRepository extends JpaRepository<Record, RecordId> {
+public interface RecordRepository extends JpaRepository<Record, RecordId>, RecordRepositoryCustom {
 
     Optional<Record> findRecordByRecordId(RecordId recordId);
 }
