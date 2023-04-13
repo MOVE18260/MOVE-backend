@@ -3,6 +3,7 @@ package dev.ehyeon.move.repository;
 import static dev.ehyeon.move.entity.QRecord.record;
 
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,8 +26,7 @@ public class RecordRepositoryImpl implements RecordRepositoryCustom {
                         record.step,
                         record.distance))
                 .from(record)
-                .where(record.recordId.memberId.eq(memberId)
-                        .and(record.recordId.dateTime.between(from, to)))
+                .where(eqMemberId(memberId).and(betweenDateTime(from, to)))
                 .fetch();
     }
 
@@ -39,8 +39,7 @@ public class RecordRepositoryImpl implements RecordRepositoryCustom {
                         record.step.sum(),
                         record.distance.sum()))
                 .from(record)
-                .where(record.recordId.memberId.eq(memberId)
-                        .and(record.recordId.dateTime.between(from, to)))
+                .where(eqMemberId(memberId).and(betweenDateTime(from, to)))
                 .groupBy(record.recordId.dateTime.dayOfYear())
                 .fetch();
     }
@@ -54,9 +53,16 @@ public class RecordRepositoryImpl implements RecordRepositoryCustom {
                         record.step.sum(),
                         record.distance.sum()))
                 .from(record)
-                .where(record.recordId.memberId.eq(memberId)
-                        .and(record.recordId.dateTime.between(from, to)))
+                .where(eqMemberId(memberId).and(betweenDateTime(from, to)))
                 .groupBy(record.recordId.dateTime.month())
                 .fetch();
+    }
+
+    private BooleanExpression eqMemberId(Long memberId) {
+        return record.recordId.memberId.eq(memberId);
+    }
+
+    private BooleanExpression betweenDateTime(LocalDateTime from, LocalDateTime to) {
+        return record.recordId.dateTime.between(from, to);
     }
 }
