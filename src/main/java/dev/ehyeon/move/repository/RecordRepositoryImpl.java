@@ -40,7 +40,8 @@ public class RecordRepositoryImpl implements RecordRepositoryCustom {
                         record.distance.sum()))
                 .from(record)
                 .where(eqMemberId(memberId).and(betweenDateTime(from, to)))
-                .groupBy(record.recordId.dateTime.dayOfYear())
+                // TODO FIX postgres dayOfYear() 지원 안함, dayOfMonth()도 적합하지 않음
+                .groupBy(record.recordId.dateTime.dayOfMonth())
                 .fetch();
     }
 
