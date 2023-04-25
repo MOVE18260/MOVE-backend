@@ -5,11 +5,13 @@ logging.level:
       type: trace
 spring:
   datasource:
+    initialization-mode: always
     url: jdbc:postgresql://localhost:5432/ehyeon
     username: ehyeon
     password: ehyeon
   jpa:
     database: POSTGRESQL
+    defer-datasource-initialization: true
     hibernate:
       ddl-auto: create
     open-in-view: false
