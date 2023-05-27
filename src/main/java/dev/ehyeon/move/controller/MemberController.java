@@ -19,21 +19,13 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/signIn")
-    public boolean signIn(@Valid @RequestBody SignInRequest request) {
+    public long signIn(@Valid @RequestBody SignInRequest request) {
         return memberService.signIn(request);
     }
 
     @PostMapping("/signUp")
-    public ResponseEntity<MemberResponse> signUp(@Valid @RequestBody SignUpRequest request) {
-        Member foundMember = memberService.signUp(request);
-
-        if (foundMember == null) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        return ResponseEntity.ok(
-                new MemberResponse(foundMember.getNickname(), foundMember.getBirthDate().getYear(),
-                        foundMember.getSex(), foundMember.getProvince()));
+    public long signUp(@Valid @RequestBody SignUpRequest request) {
+        return memberService.signUp(request);
     }
 
     @PostMapping("/member")

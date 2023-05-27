@@ -10,29 +10,33 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberService {
 
     private final MemberRepository memberRepository;
 
-    @Transactional
-    public boolean signIn(SignInRequest request) {
-        return memberRepository.existsMemberByEmailAndPassword(request.getEmail(),
-                request.getPassword());
+    public long signIn(SignInRequest request) {
+        return memberRepository
+                .findMemberByEmailAndPassword(request.getEmail(), request.getPassword())
+                .orElseThrow(IllegalArgumentException::new)
+                .getId();
     }
 
     @Transactional
-    public Member signUp(SignUpRequest request) {
+    public long signUp(SignUpRequest request) {
         if (memberRepository.existsMemberByEmail(request.getEmail())) {
-            return null;
+            throw new IllegalArgumentException();
         }
-        return memberRepository.save(
+
+        Member savedMember = memberRepository.save(
                 new Member(request.getEmail(), request.getPassword(), request.getNickname(),
                         DateUtil.yearToLocalDateTime(request.getBirthDate()), request.getSex(),
                         request.getProvince()));
+
+        return savedMember.getId();
     }
 
-    @Transactional
     public Member getMemberByEmailAndPassword(SignInRequest request) {
         return memberRepository.findMemberByEmailAndPassword(request.getEmail(),
                         request.getPassword())
