@@ -22,30 +22,40 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/signIn")
-    public long signIn(@Valid @RequestBody SignInRequest request) {
-        return memberService.signIn(request);
+    public ResponseEntity<Long> signIn(@Valid @RequestBody SignInRequest request) {
+        try {
+            return ResponseEntity.ok(memberService.signIn(request));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @PostMapping("/signUp")
-    public long signUp(@Valid @RequestBody SignUpRequest request) {
-        return memberService.signUp(request);
+    public ResponseEntity<Long> signUp(@Valid @RequestBody SignUpRequest request) {
+        try {
+            return ResponseEntity.ok(memberService.signUp(request));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @GetMapping("/member")
     public ResponseEntity<MemberResponse> getMember(@RequestParam("memberId") long memberId) {
-        Member foundMember = memberService.getMemberById(memberId);
+        try {
+            Member foundMember = memberService.getMemberById(memberId);
 
-        System.out.println("들어옴");
-
-        return ResponseEntity.ok(
-                new MemberResponse(
-                        foundMember.getNickname(),
-                        foundMember.getBirthDate().getYear(),
-                        foundMember.getSex(),
-                        foundMember.getProvince(),
-                        foundMember.getPoint()
-                )
-        );
+            return ResponseEntity.ok(
+                    new MemberResponse(
+                            foundMember.getNickname(),
+                            foundMember.getBirthDate().getYear(),
+                            foundMember.getSex(),
+                            foundMember.getProvince(),
+                            foundMember.getPoint()
+                    )
+            );
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
+        }
     }
 
     @PostMapping("/member/point")
