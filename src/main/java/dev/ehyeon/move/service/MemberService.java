@@ -2,6 +2,7 @@ package dev.ehyeon.move.service;
 
 import dev.ehyeon.move.entity.Member;
 import dev.ehyeon.move.repository.MemberRepository;
+import dev.ehyeon.move.service.dto.AddPointRequest;
 import dev.ehyeon.move.service.dto.SignInRequest;
 import dev.ehyeon.move.service.dto.SignUpRequest;
 import dev.ehyeon.move.util.DateUtil;
@@ -41,5 +42,21 @@ public class MemberService {
         return memberRepository.findMemberByEmailAndPassword(request.getEmail(),
                         request.getPassword())
                 .orElseThrow(IllegalArgumentException::new);
+    }
+
+    public Member getMemberById(long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(IllegalArgumentException::new);
+    }
+
+    @Transactional
+    public boolean addPoint(AddPointRequest request) {
+        Member foundMember = memberRepository
+                .findById(request.getMemberId())
+                .orElseThrow(IllegalArgumentException::new);
+
+        foundMember.addPoint(request.getPoint());
+
+        return true;
     }
 }

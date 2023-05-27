@@ -14,4 +14,6 @@ public class MemberResponse {
     private final String sex;
 
     private final String province;
+
+    private final int point;
 }

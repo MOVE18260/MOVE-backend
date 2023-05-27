@@ -43,6 +43,8 @@ public class Member {
     @Column(nullable = false)
     private String province;
 
+    private Integer point;
+
     public Member(String email, String password, String nickname, LocalDate birthDate,
             String sex, String province) {
         this.email = email;
@@ -51,5 +53,10 @@ public class Member {
         this.birthDate = birthDate;
         this.sex = sex;
         this.province = province;
+        this.point = 0;
+    }
+
+    public void addPoint(int point) {
+        this.point += point;
     }
 }
